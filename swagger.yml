@@ -1,0 +1,242 @@
+openapi: 3.0.3
+info:
+  title: Swagger XPE Ecommerce - OpenAPI 3.0
+  description: |-
+    Esta API foi projetada para atender ao Projeto da PÓS Graduação da XPE.
+
+  contact:
+    email: wallasfaria@hotmail.com
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000/v1
+tags:
+  - name: products
+    description: Gerenciamento de produtos
+paths:
+  /products:
+    post:
+      tags:
+        - products
+      summary: Cria um novo produto
+      description: Adiciona um novo produto ao catálago da loja
+      operationId: addProduct
+      requestBody:
+        $ref: "#/components/requestBodies/Product"
+      responses:
+        "200":
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Product"
+        "422":
+          description: Erro de validação
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+    get:
+      tags:
+        - products
+      summary: Listar produtos
+      description: Retorna uma lista de produtos, podendo filtrar por nome
+      operationId: getAll
+      parameters:
+        - name: name
+          in: query
+          description: Nome do produto para filtro
+          required: false
+          schema:
+            type: string
+      responses:
+        "200":
+          description: sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Product"
+  /products/{id}:
+    get:
+      tags:
+        - products
+      summary: Obtem detalhes do produto
+      description: Retorna detalhes do produto
+      operationId: getProductById
+      parameters:
+        - name: id
+          in: path
+          description: ID do produto a ser retornado
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '404':
+          description: Produto não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+    put:
+      tags:
+        - products
+      summary: Updates a Product in the store with form data
+      description: ""
+      operationId: updateProductWithForm
+      parameters:
+        - name: id
+          in: path
+          description: ID do produto a ser atualizado
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        $ref: '#/components/requestBodies/Product'
+      responses:
+        '200':
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Product'
+        '404':
+          description: Produto não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+        "422":
+          description: Erro de validação
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ValidationError"
+    delete:
+      tags:
+        - products
+      summary: Deletes a Product
+      description: delete a Product
+      operationId: deleteProduct
+      parameters:
+        - name: id
+          in: path
+          description: Product id to delete
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '204':
+          description: Sucesso
+        '404':
+          description: Produto não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NotFoundError'
+  /products/count:
+    get:
+      tags:
+        - products
+      summary: Total de produtos
+      description: Retorna o número total de produtos cadastrados
+      operationId: countProducts
+      responses:
+        "200":
+          description: Sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  total:
+                    type: integer
+                    description: Número total de produtos cadastrados
+
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+          example: 10
+        name:
+          type: string
+          example: Iphone 16 Pro Max
+          minLength: 5
+          maxLength: 150
+        description:
+          type: string
+          example: Iphone 16 Pro Max é um produto de alta tecnologia...
+        enabled:
+          type: boolean
+          description: visibilidade do produto no catálogo
+        price:
+          type: number
+          format: double
+          minimum: 0.01
+          description: preço do produto
+          example: 10.99
+        created_at:
+          type: string
+          description: data de criação
+          example: 2024-11-20T22:35:51.829Z
+        updated_at:
+          type: string
+          description: data de atualização
+          example: 2024-11-20T22:35:51.829Z
+    ValidationError:
+      required:
+        - message
+        - errors
+      type: object
+      properties:
+        message:
+          type: string
+          example: Unprocessed entity
+        errors:
+          type: array
+          example: ["Name can't be blank"]
+          items:
+            type: string
+    NotFoundError:
+      required:
+        - message
+      type: object
+      properties:
+        message:
+          type: string
+          example: Resource not found with id = 1
+  requestBodies:
+    Product:
+      description: Objeto de produto que a ser salvo
+      content:
+        application/json:
+          schema:
+            required:
+              - name
+              - price
+              - enabled
+            type: object
+            properties:
+              name:
+                $ref: '#/components/schemas/Product/properties/name'
+              description:
+                $ref: '#/components/schemas/Product/properties/description'
+              enabled:
+                $ref: '#/components/schemas/Product/properties/enabled'
+              price:
+                $ref: '#/components/schemas/Product/properties/price'
+

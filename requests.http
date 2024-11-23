@@ -1,0 +1,35 @@
+GET http://127.0.0.1:3000/v1/products?name=Iphone 16 Pro
+Accept: application/xml
+
+###
+POST http://127.0.0.1:3000/v1/products
+Content-Type: application/xml
+Accept: application/xml
+
+<product>
+  <name>Iphone 16 Pro</name>
+  <description>Smartphone topo de linha da apple</description>
+  <price>0.5</price>
+  <enabled type="boolean">true</enabled>
+</product>
+
+###
+PUT http://127.0.0.1:3000/v1/products/10
+Content-Type: application/json
+Accept: application/json
+
+{
+  "enabled": false
+}
+
+###
+DELETE http://127.0.0.1:3000/v1/products/7
+Accept: application/xml
+
+###
+GET http://127.0.0.1:3000/v1/products/5
+Accept: application/xml
+
+###
+GET http://127.0.0.1:3000/v1/products/count
+Accept: application/xml
