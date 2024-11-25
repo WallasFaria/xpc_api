@@ -16,7 +16,7 @@ services:
       - PORT=3000
     stdin_open: true
     tty: true
-    command: bash -c "bundle install && rails server -b 0.0.0.0"
+    command: bash -c "bundle install && rails db:migrate && rails server -b 0.0.0.0"
 
 volumes:
   bundle_cache:
