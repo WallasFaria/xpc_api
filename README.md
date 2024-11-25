@@ -1,24 +1,33 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Esta API foi projetada para atender ao Projeto da PÓS Graduação da XPE.
 
-Things you may want to cover:
+## Rodando a applicação com Docker
 
-* Ruby version
+```bash
+docker-compose up
+```
 
-* System dependencies
+## Rodando a applicação sem Docker
 
-* Configuration
+### Dependencias:
+- `ruby 3.2`
+- `rails 8.x`
+- `sqlite3`
 
-* Database creation
+### Setup inicial:
 
-* Database initialization
+```bash
+bundle install
+rails db:create db:migrate
+```
 
-* How to run the test suite
+### Iniciando servidor:
 
-* Services (job queues, cache servers, search engines, etc.)
+```
+rails s
+```
 
-* Deployment instructions
+### Links:
+[Documentação da API](https://documenter.getpostman.com/view/17666956/2sAYBUDCGq)
 
-* ...
