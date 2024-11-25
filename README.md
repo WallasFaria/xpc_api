@@ -2,13 +2,13 @@
 
 Esta API foi projetada para atender ao Projeto da PÓS Graduação da XPE.
 
-## Rodando a applicação com Docker
+## Rodando a aplicação com Docker
 
 ```bash
 docker-compose up
 ```
 
-## Rodando a applicação sem Docker
+## Rodando a aplicação sem Docker
 
 ### Dependencias:
 - `ruby 3.2`
