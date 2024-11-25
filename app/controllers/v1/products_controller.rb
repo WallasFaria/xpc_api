@@ -1,4 +1,5 @@
 class V1::ProductsController < ApplicationController
+  # hook para executar o método :set_service antes de qualquer action
   before_action :set_service
 
   # GET /products
@@ -46,12 +47,12 @@ class V1::ProductsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
+    # Instacia o serviço a ser usado nas actions
     def set_service
       @product_service = ::ProductService.new
     end
 
-    # Only allow a list of trusted parameters through.
+    # Permite apenas um lista de parâmetros confiáveis.
     def product_params
       params.expect(product: [ :name, :description, :price, :enabled ])
     end
