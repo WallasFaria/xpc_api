@@ -48,4 +48,4 @@ group :development, :test do
   gem "rubocop-rails-omakase", require: false
 end
 
-gem "rexml", "~> 3.3"
+gem "rexml", "~> 3.4"
